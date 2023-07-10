@@ -4,7 +4,7 @@ type WeiXinMessageMainProgramPrams = {
 };
 
 type WeiXinMessageSendTemplateMessage = {
-  ACCESS_TOKEN: string;
+  ACCESS_TOKEN?: string;
   touser: string;
   template_id: string;
   url?: string;

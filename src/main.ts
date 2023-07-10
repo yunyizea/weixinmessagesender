@@ -1,6 +1,6 @@
 import Axios from "axios";
 
-export default class WeiXinMessageMainProgram {
+class WeiXinMessageMainProgram {
   private appID: string = "";
   private appsecret: string = "";
 
@@ -33,11 +33,17 @@ export default class WeiXinMessageMainProgram {
   public async sendTemplateMessage(
     prams: WeiXinMessageSendTemplateMessage
   ): Promise<WeiXinSendTemplateMessageAPI> {
-    const { ACCESS_TOKEN, touser, template_id, url, topcolor, data } = prams;
+    let { ACCESS_TOKEN, touser, template_id, url, topcolor, data } = prams;
+
+    if (!ACCESS_TOKEN && this.ACCESSTOKENCACHE.access_token) {
+      ACCESS_TOKEN = this.ACCESSTOKENCACHE.access_token;
+    } else {
+      throw new Error("ACCESS_TOKEN is empty");
+    }
 
     const RequestUrl = this.WeiXinSendTemplateMessageUrl.replace(
       "#ACCESS_TOKEN#",
-      ACCESS_TOKEN
+      ACCESS_TOKEN!
     );
 
     const payload = {
@@ -169,3 +175,5 @@ export default class WeiXinMessageMainProgram {
     return this.ACCESSTOKENCACHE;
   }
 }
+
+export default WeiXinMessageMainProgram;

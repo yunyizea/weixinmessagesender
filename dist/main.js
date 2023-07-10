@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import Axios from "axios";
-export default class WeiXinMessageMainProgram {
+class WeiXinMessageMainProgram {
     constructor(prams) {
         this.appID = "";
         this.appsecret = "";
@@ -32,7 +32,13 @@ export default class WeiXinMessageMainProgram {
     }
     sendTemplateMessage(prams) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { ACCESS_TOKEN, touser, template_id, url, topcolor, data } = prams;
+            let { ACCESS_TOKEN, touser, template_id, url, topcolor, data } = prams;
+            if (!ACCESS_TOKEN && this.ACCESSTOKENCACHE.access_token) {
+                ACCESS_TOKEN = this.ACCESSTOKENCACHE.access_token;
+            }
+            else {
+                throw new Error("ACCESS_TOKEN is empty");
+            }
             const RequestUrl = this.WeiXinSendTemplateMessageUrl.replace("#ACCESS_TOKEN#", ACCESS_TOKEN);
             const payload = {
                 touser,
@@ -142,3 +148,4 @@ export default class WeiXinMessageMainProgram {
         });
     }
 }
+export default WeiXinMessageMainProgram;
